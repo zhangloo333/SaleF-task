@@ -23,6 +23,7 @@ export function fetchPost(id) {
 // fetchAllPosts
 export function fetchPosts() {
   const request = axios.get(ROOT_URL);
+  console.log('this is from action');
   console.log(request);
   return {
       type: FETCH_POSTS,

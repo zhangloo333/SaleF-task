@@ -6,3 +6,26 @@ header{
 .container-fluid h1{
   margin-left: 81px;
 }
+.index {
+  background-color:#e9ebee;
+
+}
+.index h4{
+  background-color:#f9f2f4;
+  text-align: center;
+}
+
+.index a{
+  text-align: center;
+}
+
+.posts li{
+  margin-top: 15px;
+}
+
+.pull-left {
+  float: left !important;
+}
+.pull-right {
+  float: right !important;
+}
