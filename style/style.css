@@ -29,3 +29,6 @@ header{
 .pull-right {
   float: right !important;
 }
+.button {
+  margin-right: 10px;
+}

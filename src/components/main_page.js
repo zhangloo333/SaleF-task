@@ -1,13 +1,16 @@
-import React, {Component} from 'react';
+import React, {Component,PropTypes} from 'react';
 import { connect } from 'react-redux';
 import {Link} from 'react-router';
 import { bindActionCreators } from 'redux';
-import {fetchPosts,deletePost} from '../actions/index';
+import {fetchPosts,deletePost,deleteAllPost} from '../actions/index';
 
 
 class MainPage extends Component {
   constructor(props) {
     super();
+  }
+  static contextTypes = {
+    router: PropTypes.object
   }
   componentWillMount() {
     this.props.fetchPosts();
@@ -34,26 +37,36 @@ class MainPage extends Component {
       let date = post.timestamp.substring(8,10) + post.timestamp.substring(3,8) + post.timestamp.substring(23,29);
       return(
         <li className ='list-group-item' key={`${post.id}1`}>
-          <h5>Post: {post.title} <span className='pull-right'>{date}</span></h5>
-          <p>{post.text}</p>
-          <Link to="app/:id" className="btn btn-primary" >
-              Add a post
-          </Link>
-          <button className="btn btn-danger pull-xs-right"
-                  onClick={this.onDeleteClick.bind(this)}>
-            DELETE
-          </button>
+          <div>
+            <h5>Post: {post.title} <span className='pull-right'>{date}</span></h5>
+            <p>{post.text}</p>
+            <p>ID: {post.id}</p>
+          </div>
+          <div className = "button">
+            <Link to="app/:id" className="btn btn-primary" >
+                Add a post
+            </Link>
+            <button className="btn btn-danger "
+                    onClick={this.onDeleteClick.bind(this,post.id)}>
+              DELETE
+            </button>
+          </div>
         </li>
       )
     });
   }
 
-  onDeleteClick(){
-  this.props.deletePost(this.props.params.id)
-  .then(() => {
-    this.context.router.push('/app');
-  });
+  onDeleteClick(id){
+    this.props.deletePost(id).then(() => {
+      this.context.router.push('/app');
+      console.log("finsh delete");
+    });
+
 }
+
+  onDeleteAllClick(){
+    this.props.deleteAllPost();
+  }
 
   render() {
     return (
@@ -68,9 +81,10 @@ class MainPage extends Component {
                   <Link to="app/posts/new" className="btn btn-primary" >
                       Add a post
                   </Link>
-                  <Link to="app/posts/new" className="pull-right btn btn-danger" >
-                      Delete All
-                  </Link>
+                  <button className="btn btn-danger "
+                          onClick={this.onDeleteAllClick.bind(this)}>
+                    Delete All
+                  </button>
                 </div>
               </div>
         </div>
@@ -89,7 +103,7 @@ class MainPage extends Component {
 function mapStateToProps(state) {
   return {posts: state.posts.all};
 }
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({fetchPosts}, dispatch);
-}
+// function mapDispatchToProps(dispatch) {
+//   return bindActionCreators({fetchPosts}, dispatch);
+// }
 export default connect(mapStateToProps,{fetchPosts,deletePost})(MainPage);
