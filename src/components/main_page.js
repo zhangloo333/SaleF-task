@@ -43,8 +43,8 @@ class MainPage extends Component {
             <p>ID: {post.id}</p>
           </div>
           <div className = "button">
-            <Link to="app/:id" className="btn btn-primary" >
-                Add a post
+            <Link to={`app/${post.id}`} className="btn btn-primary" >
+                Edit the post
             </Link>
             <button className="btn btn-danger "
                     onClick={this.onDeleteClick.bind(this,post.id)}>
@@ -103,7 +103,5 @@ class MainPage extends Component {
 function mapStateToProps(state) {
   return {posts: state.posts.all};
 }
-// function mapDispatchToProps(dispatch) {
-//   return bindActionCreators({fetchPosts}, dispatch);
-// }
+
 export default connect(mapStateToProps,{fetchPosts,deletePost})(MainPage);

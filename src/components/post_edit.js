@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
-import {createPost,fetchPost,deletePost} from '../actions/index';
+import {createPost,fetchPosts,fetchPost,deletePost} from '../actions/index';
 import {Link} from 'react-router';
 
 
@@ -12,9 +12,25 @@ class EditPosts extends Component {
     this.props.fetchPost(this.props.params.id);
   }
 
-  render() {
-    const {fields:{title,text}, post} = this.props;
+  onSubmit(props,id) {
+      console.log('this is for edit request');
+      console.log(props);
+      this.props.createPost(props)
+      .then(()=>{
+        console.log('begin the delete operation');
+        console.log("id" + this.props.post.id);
+        this.props.deletePost(this.props.post.id);
+      })
+      .then(() => {
+          this.context.router.push('/app');
+      })
+  }
 
+
+  render() {
+    const {fields:{title,text}, post,handleSubmit} = this.props;
+
+    console.log('this from render');
     console.log(this.props.post);
     if(!this.props.post) {
       return <div>Loading....</div>
@@ -24,8 +40,25 @@ class EditPosts extends Component {
       <div className="container-fluid">
         <div className='row'>
           <div className='col-md-offset-3 col-md-6'>
-            <form>
-              <input type="text" className="form-control" value={post.title} {...title}/>
+            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+                <h3>Edit for this post</h3>
+                <div>
+                      <label>Title</label>
+                      <input type="text" className="form-control" value={post.title} {...title}/>
+                      <div className="text-help">
+                          { title.touched ? title.error : ""}
+                      </div>
+                </div>
+
+                <div className = {`form-group ${text.touched && text.invalid? 'has-danger' : ''}`}>
+                      <label>Content</label>
+                      <textarea rows="10" type="text" value={post.text}className="form-control"
+                      placeholder = { text.touched ? text.error : ""}
+                      {...text}/>
+                </div>
+
+                <button type ="submit" className="btn btn-primary">Submit</button>
+                <Link to ="/app" className="btn btn-danger">Cancel</Link>
             </form>
           </div>
         </div>
@@ -53,4 +86,4 @@ export default reduxForm({
     form: 'EditForm',
     fields:['title','text'],
     validate
-},mapStateToProps,{createPost,fetchPost,deletePost})(EditPosts);
+},mapStateToProps,{createPost,fetchPosts,fetchPost,deletePost})(EditPosts);

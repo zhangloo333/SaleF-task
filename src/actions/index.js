@@ -45,7 +45,7 @@ export function createPost(props){
   };
 }
 
-//Delete on post
+// Delete on post
 export function deletePost(id){
   const request = axios.delete(`${ROOT_URL}/${id}`);
   return {
@@ -53,6 +53,8 @@ export function deletePost(id){
     payload: request
   }
 }
+
+
 
 //Delete all Posts
 export function deleteAllPost() {
