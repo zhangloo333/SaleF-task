@@ -1,18 +1,12 @@
-import React, {Component,PropTypes} from 'react';
+import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import {Link} from 'react-router';
-import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import {fetchPosts,deletePost,deleteAllPost} from '../actions/index';
 
 
 class MainPage extends Component {
-  constructor(props) {
-    super();
-  }
-  static contextTypes = {
-    router: PropTypes.object
-  }
-  componentWillMount() {
+
+  componentDidMount() {
     this.props.fetchPosts();
     console.log('this is from main component');
     console.log(this.props.posts);
@@ -23,7 +17,7 @@ class MainPage extends Component {
         let date = post.timestamp.substring(8,10) + post.timestamp.substring(3,8) + post.timestamp.substring(23,29);
         return(
           <li className ='list-group-item' key={post.id}>
-            <Link to={`app/${post.id}`}>
+            <Link to={`/app/${post.id}`}>
               <span> {date} - </span>
               <strong>{post.title}</strong>
             </Link>
@@ -57,19 +51,14 @@ class MainPage extends Component {
   }
 
   onDeleteClick(id){
-    this.props.deletePost(id).then(() => {
-      this.context.router.push('/app/posts/new');
-      this.context.router.push('/app');
-    });
-
-}
+    this.props.deletePost(id, () => {
+      this.props.history.push('/app');
+    })
+  }
 
   onDeleteAllClick(){
-    this.props.deleteAllPost().then(() => {
-      // this.context.router.push('/app/posts/new');
-      this.context.router.push('/app');
-  })
-};
+    this.props.deleteAllPost()
+  };
 
   render() {
     return (
@@ -104,6 +93,8 @@ class MainPage extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log('this is state');
+  console.log(state);
   return {posts: state.posts.all};
 }
 

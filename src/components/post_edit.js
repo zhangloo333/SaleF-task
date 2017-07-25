@@ -1,16 +1,15 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {reduxForm} from 'redux-form';
 import {createPost,fetchPosts,fetchPost,deletePost,editPost} from '../actions/index';
-import { bindActionCreators } from 'redux';
-import {Link} from 'react-router';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 
 class EditPosts extends Component {
-  static contextTypes = {
-      router: PropTypes.object
-  }
-  componentWillMount(){
-    this.props.fetchPost(this.props.params.id);
+
+  componentDidMount(){
+      const {id} = this.props.match.params;
+      this.props.fetchPost(id);
   }
 
   onSubmit(props,id) {
@@ -18,7 +17,6 @@ class EditPosts extends Component {
         this.context.router.push('/app');
       })
   }
-
 
   render() {
     const {fields:{title,text}, post,handleSubmit} = this.props;
@@ -72,6 +70,8 @@ function validate(values) {
 }
 
 function mapStateToProps(state) {
+  console.log('this is for post_edit');
+  console.log(state)
   return {post: state.posts.post};
 }
 
@@ -80,4 +80,4 @@ export default reduxForm({
     form: 'EditForm',
     fields:['title','text'],
     validate
-},mapStateToProps,{createPost,fetchPosts,fetchPost,deletePost,editPost})(EditPosts);
+})(connect(mapStateToProps,{createPost,fetchPosts,fetchPost,deletePost,editPost})(EditPosts));

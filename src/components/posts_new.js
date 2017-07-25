@@ -5,16 +5,12 @@ import {Link} from 'react-router';
 
 
 class PostsShow extends Component {
-    static contextTypes = {
-      router: PropTypes.object
-    }
 
   onSubmit(props) {
     console.log(props);
-    this.props.createPost(props)
-    .then(() => {
-        this.context.router.push('/app');
-    });
+    this.props.createPost(props,() => {
+      this.props.history.push('/');
+    })
   }
 
   render() {
