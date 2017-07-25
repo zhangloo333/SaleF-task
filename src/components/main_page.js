@@ -58,15 +58,18 @@ class MainPage extends Component {
 
   onDeleteClick(id){
     this.props.deletePost(id).then(() => {
+      this.context.router.push('/app/posts/new');
       this.context.router.push('/app');
-      console.log("finsh delete");
     });
 
 }
 
   onDeleteAllClick(){
-    this.props.deleteAllPost();
-  }
+    this.props.deleteAllPost().then(() => {
+      // this.context.router.push('/app/posts/new');
+      this.context.router.push('/app');
+  })
+};
 
   render() {
     return (
@@ -104,4 +107,4 @@ function mapStateToProps(state) {
   return {posts: state.posts.all};
 }
 
-export default connect(mapStateToProps,{fetchPosts,deletePost})(MainPage);
+export default connect(mapStateToProps,{fetchPosts,deletePost,deleteAllPost})(MainPage);

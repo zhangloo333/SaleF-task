@@ -6,6 +6,7 @@ export const CREATE_POST = 'CREATE_POST';
 export const FETCH_POST = 'FETCH_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const DELETE_ALLPOST = 'DELETE_ALLPOST';
+export const EDIT_POST = 'EDIT_POST';
 
 
 const ROOT_URL = 'http://localhost:8080/Blog/api';
@@ -47,14 +48,23 @@ export function createPost(props){
 
 // Delete on post
 export function deletePost(id){
-  const request = axios.delete(`${ROOT_URL}/${id}`);
+  axios.delete(`${ROOT_URL}/${id}`);
+  const request = axios.get(ROOT_URL);
   return {
     type: DELETE_POST,
     payload: request
   }
 }
 
-
+export function editPost(props,id){
+  const request = axios.delete(`${ROOT_URL}/${id}`).then(()=>{
+    instance.post(ROOT_URL,qs.stringify(props))
+  }).then(()=>axios.get(ROOT_URL));
+  return {
+    type:EDIT_POST,
+    payload: request
+  };
+}
 
 //Delete all Posts
 export function deleteAllPost() {
