@@ -6,6 +6,8 @@ const INITIAL_STATE ={all: [], post: null};
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
     case FETCH_POST:
+      console.log('this is from reducer');
+      console.log(action.payload);
       return {...state, post:action.payload.data.post}
     case FETCH_POSTS:
       return {...state, all:action.payload.data.blog.posts};

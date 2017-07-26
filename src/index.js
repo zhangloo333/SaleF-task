@@ -10,6 +10,7 @@ import Greating from './components/greet';
 import MainPage from './components/main_page';
 import PostsNew from './components/posts_new';
 import EditPosts from './components/post_edit';
+import PostShow from './components/post_show';
 
 
 
@@ -20,7 +21,8 @@ ReactDOM.render(
     <BrowserRouter>
       <div>
         <Switch>
-          <Route path="/app/posts/new" component={Greating} />
+          <Route path="/app/posts/new" component={PostsNew} />
+          <Route path="/app/show/:id" component={PostShow} />
           <Route path="/app/:id" component={EditPosts} />
           <Route path="/app" component={MainPage} />
         </Switch>
@@ -28,18 +30,3 @@ ReactDOM.render(
     </BrowserRouter>
   </Provider>
   , document.querySelector('#bloger'));
-
-
-// ReactDOM.render(
-//   <Provider store={createStoreWithMiddleware(reducers)}>
-//     <BrowserRouter>
-//       <div>
-//         <Switch>
-//           <Route path = "/app" component = {Greating} />
-//           <Route path = "/app/:id" component = {Greating} />
-//           <Route path="/app/posts/new" component={MainPage} />
-//         </Switch>
-//       </div>
-//     </BrowserRouter>
-//   </Provider>
-// , document.querySelector('#bloger'));

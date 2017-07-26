@@ -1,20 +1,21 @@
-import React, {Component,PropTypes} from 'react';
+import React, {Component} from 'react';
 import {reduxForm} from 'redux-form';
 import { createPost } from '../actions/index';
-import {Link} from 'react-router';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 
-class PostsShow extends Component {
+class PostsNew extends Component {
 
   onSubmit(props) {
-    console.log(props);
     this.props.createPost(props,() => {
-      this.props.history.push('/');
+      this.props.history.push('/app');
     })
   }
 
   render() {
     const {fields:{title,text}, handleSubmit} = this.props;
+    const className = `form-group ${title.touched && title.invalid? 'has-danger' : ''}`;
     return(
       <div className="container-fluid">
         <div className='row'>
@@ -22,7 +23,7 @@ class PostsShow extends Component {
             <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
               <h3>Create A New Post</h3>
 
-              <div className = { `form-group ${title.touched && title.invalid? 'has-danger' : ''}`}>
+              <div className = {className}>
                   <label>Title</label>
                   <input type="text" className="form-control" placeholder = { title.touched ? title.error : ""} {...title}/>
                   <div className="text-help">
@@ -30,7 +31,7 @@ class PostsShow extends Component {
                   </div>
               </div>
 
-              <div className = {`form-group ${text.touched && text.invalid? 'has-danger' : ''}`}>
+              <div className = {className}>
                   <label>Content</label>
                   <textarea rows="10" type="text" className="form-control"
                   placeholder = { text.touched ? text.error : ""}
@@ -62,4 +63,4 @@ export default reduxForm({
     form: 'PostsNewForm',
     fields:['title','text'],
     validate
-},null,{createPost})(PostsShow);
+})(connect(null,{createPost})(PostsNew));

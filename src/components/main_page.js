@@ -8,8 +8,6 @@ class MainPage extends Component {
 
   componentDidMount() {
     this.props.fetchPosts();
-    console.log('this is from main component');
-    console.log(this.props.posts);
   }
 
   renderHistory() {
@@ -17,7 +15,7 @@ class MainPage extends Component {
         let date = post.timestamp.substring(8,10) + post.timestamp.substring(3,8) + post.timestamp.substring(23,29);
         return(
           <li className ='list-group-item' key={post.id}>
-            <Link to={`/app/${post.id}`}>
+            <Link to={`/app/show/${post.id}`}>
               <span> {date} - </span>
               <strong>{post.title}</strong>
             </Link>
@@ -70,7 +68,7 @@ class MainPage extends Component {
                   <ul className='list-group'>
                    {this.renderHistory()}
                   </ul>
-                  <Link to="app/posts/new" className="btn btn-primary" >
+                  <Link to="/app/posts/new" className="btn btn-primary" >
                       Add a post
                   </Link>
                   <button className="btn btn-danger "
@@ -93,8 +91,6 @@ class MainPage extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('this is state');
-  console.log(state);
   return {posts: state.posts.all};
 }
 

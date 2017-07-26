@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {reduxForm} from 'redux-form';
-import {createPost,fetchPosts,fetchPost,deletePost,editPost} from '../actions/index';
+import {fetchPost,editPost} from '../actions/index';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -20,9 +20,7 @@ class EditPosts extends Component {
 
   render() {
     const {fields:{title,text}, post,handleSubmit} = this.props;
-
-    console.log('this from render');
-    console.log(this.props.post);
+    const className = `form-group ${text.touched && text.invalid? 'has-danger' : ''}`;
     if(!this.props.post) {
       return <div>Loading....</div>
     }
@@ -33,7 +31,7 @@ class EditPosts extends Component {
           <div className='col-md-offset-3 col-md-6'>
             <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                 <h3>Edit for this post</h3>
-                <div>
+                <div className ={className}>
                       <label>Title</label>
                       <input type="text" className="form-control" value={post.title} {...title}/>
                       <div className="text-help">
@@ -41,7 +39,7 @@ class EditPosts extends Component {
                       </div>
                 </div>
 
-                <div className = {`form-group ${text.touched && text.invalid? 'has-danger' : ''}`}>
+                <div className = {className}>
                       <label>Content</label>
                       <textarea rows="10" type="text" value={post.text}className="form-control"
                       placeholder = { text.touched ? text.error : ""}
@@ -70,8 +68,6 @@ function validate(values) {
 }
 
 function mapStateToProps(state) {
-  console.log('this is for post_edit');
-  console.log(state)
   return {post: state.posts.post};
 }
 
@@ -80,4 +76,4 @@ export default reduxForm({
     form: 'EditForm',
     fields:['title','text'],
     validate
-})(connect(mapStateToProps,{createPost,fetchPosts,fetchPost,deletePost,editPost})(EditPosts));
+})(connect(mapStateToProps,{fetchPost,editPost})(EditPosts));
