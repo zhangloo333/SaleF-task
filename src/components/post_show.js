@@ -24,20 +24,25 @@ class PostShow extends Component {
     } else{
       let date = post.timestamp.substring(8,10) + post.timestamp.substring(3,8) + post.timestamp.substring(23,29);
       return(
-        <div className="post-show container-fluid">
+        <div className ='fill'>
+
           <div className = 'row'>
             <div className = 'col-md-8 col-md-offset-2'>
-              <div>
+              <div className = 'row'>
+                <Link to={`/app`} className="btn btn-warning btn-sm pull-right">
+                    Back to Index
+                </Link>
+              </div>
+              <div className = 'row'>
                 <h5>Post: {post.title} <span className='pull-right'>{date}</span></h5>
                 <p>{post.text}</p>
                 <p>ID: {post.id}</p>
               </div>
-
               <div className = "button">
-                <Link to={`app/${post.id}`} className="btn btn-primary" >
+                <Link to={`/app/${post.id}`} className="btn btn-primary btn-sm">
                     Edit the post
                 </Link>
-                <button className="btn btn-danger "
+                <button className="btn btn-danger btn-sm"
                         onClick={this.onDeleteClick.bind(this,post.id)}>
                   DELETE
                 </button>

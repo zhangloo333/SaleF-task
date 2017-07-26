@@ -29,19 +29,20 @@ class MainPage extends Component {
       let date = post.timestamp.substring(8,10) + post.timestamp.substring(3,8) + post.timestamp.substring(23,29);
       return(
         <li className ='list-group-item' key={`${post.id}1`}>
-          <div>
+          <div className = 'row'>
             <h5>Post: {post.title} <span className='pull-right'>{date}</span></h5>
             <p>{post.text}</p>
-            <p>ID: {post.id}</p>
           </div>
-          <div className = "button">
-            <Link to={`app/${post.id}`} className="btn btn-primary" >
-                Edit the post
-            </Link>
-            <button className="btn btn-danger "
-                    onClick={this.onDeleteClick.bind(this,post.id)}>
-              DELETE
-            </button>
+          <div className = "row">
+            <div className = 'pull-right'>
+              <Link to={`app/${post.id}`} className="btn btn-primary" >
+                  Edit the post
+              </Link>
+              <button className="btn btn-danger "
+                      onClick={this.onDeleteClick.bind(this,post.id)}>
+                DELETE
+              </button>
+            </div>
           </div>
         </li>
       )
@@ -68,10 +69,10 @@ class MainPage extends Component {
                   <ul className='list-group'>
                    {this.renderHistory()}
                   </ul>
-                  <Link to="/app/posts/new" className="btn btn-primary" >
+                  <Link to="/app/posts/new" className="btn btn-primary btn-sm" >
                       Add a post
                   </Link>
-                  <button className="btn btn-danger "
+                  <button className="btn btn-danger btn-sm"
                           onClick={this.onDeleteAllClick.bind(this)}>
                     Delete All
                   </button>
