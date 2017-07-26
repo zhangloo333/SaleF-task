@@ -1,3 +1,5 @@
+// const webpack = require('webpack');
+
 module.exports = {
     entry: './src/index.js',
     output: {
@@ -17,10 +19,5 @@ module.exports = {
             test: /\.jsx?$/,
             exclude: /(node_modules|bower_components)/
         }]
-    },
-    devServer: {
-        historyApiFallback: true,
-        contentBase: './',
-        port:9000
     }
 };
